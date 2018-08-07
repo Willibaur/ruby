@@ -1,56 +1,52 @@
-# Guia de Estilo para Ruby
+# Ruby Style Guide
 
-Esta es la Guia de Estilo para Ruby
+This is Airbnb's Ruby Style Guide.
 
-Fue inspirada en [Guia para GitHub](https://web.archive.org/web/20160410033955/https://github.com/styleguide/ruby) y
-[Guia para Rubocop][rubocop-guide].
+It was inspired by [GitHub's guide](https://web.archive.org/web/20160410033955/https://github.com/styleguide/ruby) and [Rubocop guide][rubocop-guide].
 
-Airbnb tambien mantiene una [Guia de Estilo para JavaScript][airbnb-javascript].
+Airbnb also maintains a [JavaScript Style Guide][airbnb-javascript].
 
-## Tabla de contenido
-  1. [Espacio en blanco] (#espacio en blanco)
-    1. [Sangría] (#sangría)
-    2. [En línea] (#en línea)
-    3. [Nuevas líneas] (#nuevas líneas)
-  2. [Longitud de línea] (#línea-longitud)
-  3. [Comentando] (#comentario)
-    1. [Comentarios a nivel de Archivo/Clase] (#comentarios-archivo-clase)
-    2. [Comentarios de funcion] (#comentarios-de-funcion)
-    3. [Comentarios en Bloque y en Línea] (#comentarios-en-bloque-y-en-linea)
-    4. [Puntuación, ortografía y gramática] (#puntuación-ortografía-y-gramática)
-    5. [Comentarios TODO] (#comentarios-todo)
-    6. [Código comentado] (#código-comentado)
-  4. [Métodos] (#métodos)
-    1. [Definiciones de método] (#definiciones-de-método)
-    2. [Llamadas a métodos] (#llamadas-a-métodos)
-  5. [Expresiones condicionales] (#expresiones-condicionales)
-    1. [Palabras clave condicionales] (#palabras-clave-condicionales)
-    2. [Operador ternario] (#operador-ternario)
-  6. [Sintaxis] (#sintaxis)
-  7. [Nombrando] (#nombrando)
-  8. [Clases] (#clases)
-  9. [Excepciones] (#excepciones)
-  10. [Colecciones] (#colecciones)
-  11. [Strings] (#strings)
-  12. [Expresiones regulares] (#expresiones-regulares)
-  13. [Literales Porciento] (#literales-porciento)
-  14. [Rails] (#rails)
-    1. [Alcance] (#alcance)
-  15. [Sea consistente] (#sea-consistente)
-  16. [Traducción] (#traducción)
+## Table of Contents
+  1. [Whitespace](#whitespace)
+    1. [Indentation](#indentation)
+    1. [Inline](#inline)
+    1. [Newlines](#newlines)
+  1. [Line Length](#line-length)
+  1. [Commenting](#commenting)
+    1. [File/class-level comments](#fileclass-level-comments)
+    1. [Function comments](#function-comments)
+    1. [Block and inline comments](#block-and-inline-comments)
+    1. [Punctuation, spelling, and grammar](#punctuation-spelling-and-grammar)
+    1. [TODO comments](#todo-comments)
+    1. [Commented-out code](#commented-out-code)
+  1. [Methods](#methods)
+    1. [Method definitions](#method-definitions)
+    1. [Method calls](#method-calls)
+  1. [Conditional Expressions](#conditional-expressions)
+    1. [Conditional keywords](#conditional-keywords)
+    1. [Ternary operator](#ternary-operator)
+  1. [Syntax](#syntax)
+  1. [Naming](#naming)
+  1. [Classes](#classes)
+  1. [Exceptions](#exceptions)
+  1. [Collections](#collections)
+  1. [Strings](#strings)
+  1. [Regular Expressions](#regular-expressions)
+  1. [Percent Literals](#percent-literals)
+  1. [Rails](#rails)
+    1. [Scopes](#scopes)
+  1. [Be Consistent](#be-consistent)
+  1. [Translation](#translation)
 
+## Whitespace
 
-## Espacio en blanco
+### Indentation
 
-### Sangria
+* <a name="default-indentation"></a>Use soft-tabs with a
+    two-space indent.<sup>[[link](#default-indentation)]</sup>
 
-* <a name="indentacion-por-defecto"></a>
-    Utilice soft-tabs con una sangria de dos espacios.
-    <sup>[[link](#indentation-por-defecto)]</sup>
-
-* <a name="indentar-when-como-case"></a>
-    Indentar `when` tanto como `case`.
-    <sup>[[link](#indentar-when-como-case)]</sup>
+* <a name="indent-when-as-case"></a>Indent `when` as deep as `case`.
+    <sup>[[link](#indent-when-as-case)]</sup>
 
     ```ruby
     case
@@ -74,18 +70,17 @@ Airbnb tambien mantiene una [Guia de Estilo para JavaScript][airbnb-javascript].
            end
     ```
 
-* <a name="alinear-parametros-de-functiones"></a>
-    Alinear parametros de functiones ya sea todos en la misma linea o uno por linea.
-    <sup>[[link](#alinear-parametros-de-functiones)]</sup>
+* <a name="align-function-params"></a>Align function parameters either all on
+    the same line or one per line.<sup>[[link](#align-function-params)]</sup>
 
     ```ruby
-    # Erroneo
+    # bad
     def self.create_translation(phrase_id, phrase_key, target_locale,
                                 value, user_id, do_xss_check, allow_verification)
       ...
     end
 
-    # Correcto
+    # good
     def self.create_translation(phrase_id,
                                 phrase_key,
                                 target_locale,
@@ -96,7 +91,7 @@ Airbnb tambien mantiene una [Guia de Estilo para JavaScript][airbnb-javascript].
       ...
     end
 
-    # Correcto
+    # good
     def self.create_translation(
       phrase_id,
       phrase_key,
@@ -110,19 +105,18 @@ Airbnb tambien mantiene una [Guia de Estilo para JavaScript][airbnb-javascript].
     end
     ```
 
-* <a name="indentar-booleano-multi-linea"></a>
-    Indentar lineas precedentes en expresiones booleano multi-linea.
-    <sup>[[link](#indentar-booleano-multi-linea)]</sup>
+* <a name="indent-multi-line-bool"></a>Indent succeeding lines in multi-line
+    boolean expressions.<sup>[[link](#indent-multi-line-bool)]</sup>
 
     ```ruby
-    # Erroneo
+    # bad
     def is_eligible?(user)
       Trebuchet.current.launch?(ProgramEligibilityHelper::PROGRAM_TREBUCHET_FLAG) &&
       is_in_program?(user) &&
       program_not_expired
     end
 
-    # Correcto
+    # good
     def is_eligible?(user)
       Trebuchet.current.launch?(ProgramEligibilityHelper::PROGRAM_TREBUCHET_FLAG) &&
         is_in_program?(user) &&
@@ -130,22 +124,20 @@ Airbnb tambien mantiene una [Guia de Estilo para JavaScript][airbnb-javascript].
     end
     ```
 
-### En linea
+### Inline
 
-* <a name="espacios-en-blanco"></a>
-    Nunca deje espacios en blanco al final de una linea.
-    <sup>[[link](#espacios-en-blanco)]</sup>
+* <a name="trailing-whitespace"></a>Never leave trailing whitespace.
+    <sup>[[link](#trailing-whitespace)]</sup>
 
-* <a name="espacio-antes-de-comentarios"></a>
-    Cuando crea comentarios en linea, incluya un espacio en blanco entre el final del codigo y el principio de su
-    comentario.
-    <sup>[[link](#espacio-antes-de-comentarios)]</sup>
+* <a name="space-before-comments"></a>When making inline comments, include a
+    space between the end of the code and the start of your comment.
+    <sup>[[link](#space-before-comments)]</sup>
 
     ```ruby
-    # Erroneo
+    # bad
     result = func(a, b)# we might want to change b to c
 
-    # Correcto
+    # good
     result = func(a, b) # we might want to change b to c
     ```
 
@@ -173,10 +165,10 @@ Airbnb tambien mantiene una [Guia de Estilo para JavaScript][airbnb-javascript].
     <sup>[[link](#spaces-block-params)]</sup>
 
     ```ruby
-    # Erroneo
+    # bad
     {}.each { | x,  y |puts x }
 
-    # Correcto
+    # good
     {}.each { |x, y| puts x }
     ```
 
@@ -199,10 +191,10 @@ Airbnb tambien mantiene una [Guia de Estilo para JavaScript][airbnb-javascript].
     string interpolation.<sup>[[link](#no-spaces-string-interpolation)]</sup>
 
     ```ruby
-    # Erroneo
+    # bad
     var = "This #{ foobar } is interpolated."
 
-    # Correcto
+    # good
     var = "This #{foobar} is interpolated."
     ```
 
@@ -210,10 +202,10 @@ Airbnb tambien mantiene una [Guia de Estilo para JavaScript][airbnb-javascript].
     literals.<sup>[[link](#no-spaces-range-literals)]</sup>
 
     ```ruby
-    # Erroneo
+    # bad
     (0 ... coll).each do |item|
 
-    # Correcto
+    # good
     (0...coll).each do |item|
     ```
 
@@ -247,7 +239,7 @@ Airbnb tambien mantiene una [Guia de Estilo para JavaScript][airbnb-javascript].
     <sup>[[link](#newline-different-indent)]</sup>
 
     ```ruby
-    # Erroneo
+    # bad
     class Foo
 
       def bar
@@ -256,7 +248,7 @@ Airbnb tambien mantiene una [Guia de Estilo para JavaScript][airbnb-javascript].
 
     end
 
-    # Correcto
+    # good
     class Foo
       def bar
         # body omitted
@@ -448,13 +440,13 @@ knows the language (though not what you're trying to do) better than you do.
   <sup>[[link](#no-block-comments)]</sup>
 
   ```ruby
-  # Erroneo
+  # bad
   =begin
   comment line
   another comment line
   =end
 
-  # Correcto
+  # good
   # comment line
   # another comment line
   ```
@@ -489,13 +481,13 @@ A TODO is not a commitment that the person referenced will fix the problem.
 Thus when you create a TODO, it is almost always your name that is given.
 
 ```ruby
-  # Erroneo
+  # bad
   # TODO(RS): Use proper namespacing for this constant.
 
-  # Erroneo
+  # bad
   # TODO(drumm3rz4lyfe): Use proper namespacing for this constant.
 
-  # Correcto
+  # good
   # TODO(Ringo Starr): Use proper namespacing for this constant.
 ```
 
@@ -527,17 +519,17 @@ Thus when you create a TODO, it is almost always your name that is given.
     hash instead.<sup>[[link](#no-default-args)]</sup>
 
     ```ruby
-    # Erroneo
+    # bad
     def obliterate(things, gently = true, except = [], at = Time.now)
       ...
     end
 
-    # Correcto
+    # good
     def obliterate(things, gently: true, except: [], at: Time.now)
       ...
     end
 
-    # Correcto
+    # good
     def obliterate(things, options = {})
       options = {
         :gently => true, # obliterate with soft-delete
@@ -555,10 +547,10 @@ Thus when you create a TODO, it is almost always your name that is given.
     <sup>[[link](#no-single-line-methods)]</sup>
 
     ```ruby
-    # Erroneo
+    # bad
     def too_much; something; something_else; end
 
-    # Correcto
+    # good
     def some_method
       # body
     end
@@ -572,10 +564,10 @@ Thus when you create a TODO, it is almost always your name that is given.
     <sup>[[link](#returns-val-parens)]</sup>
 
     ```ruby
-    # Erroneo
+    # bad
     @current_user = User.find_by_id 1964192
 
-    # Correcto
+    # good
     @current_user = User.find_by_id(1964192)
     ```
 
@@ -583,10 +575,10 @@ Thus when you create a TODO, it is almost always your name that is given.
     parentheses.<sup>[[link](#first-arg-parens)]</sup>
 
     ```ruby
-    # Erroneo
+    # bad
     put! (x + y) % len, value
 
-    # Correcto
+    # good
     put!((x + y) % len, value)
     ```
 
@@ -594,10 +586,10 @@ Thus when you create a TODO, it is almost always your name that is given.
     the opening parenthesis.<sup>[[link](#space-method-call)]</sup>
 
     ```ruby
-    # Erroneo
+    # bad
     f (3 + 2) + 1
 
-    # Correcto
+    # good
     f(3 + 2) + 1
     ```
 
@@ -605,10 +597,10 @@ Thus when you create a TODO, it is almost always your name that is given.
     method accepts no arguments.<sup>[[link](#no-args-parens)]</sup>
 
     ```ruby
-    # Erroneo
+    # bad
     nil?()
 
-    # Correcto
+    # good
     nil?
     ```
 
@@ -632,10 +624,10 @@ In either case:
     <sup>[[link](#options-no-braces)]</sup>
 
     ```ruby
-    # Erroneo
+    # bad
     get '/v1/reservations', { :id => 54875 }
 
-    # Correcto
+    # good
     get '/v1/reservations', :id => 54875
     ```
 
@@ -647,12 +639,12 @@ In either case:
     <sup>[[link](#multiline-if-then)]</sup>
 
     ```ruby
-    # Erroneo
+    # bad
     if some_condition then
       ...
     end
 
-    # Correcto
+    # good
     if some_condition
       ...
     end
@@ -662,7 +654,7 @@ In either case:
     `until`.<sup>[[link](#multiline-while-until)]</sup>
 
     ```ruby
-    # Erroneo
+    # bad
     while x > 5 do
       ...
     end
@@ -671,7 +663,7 @@ In either case:
       ...
     end
 
-    # Correcto
+    # good
     while x > 5
       ...
     end
@@ -691,7 +683,7 @@ In either case:
     <sup>[[link](#only-simple-if-unless)]</sup>
 
     ```ruby
-    # Erroneo - this doesn't fit on one line
+    # bad - this doesn't fit on one line
     add_trebuchet_experiments_on_page(request_opts[:trebuchet_experiments_on_page]) if request_opts[:trebuchet_experiments_on_page] && !request_opts[:trebuchet_experiments_on_page].empty?
 
     # okay
@@ -701,7 +693,7 @@ In either case:
       add_trebuchet_experiments_on_page(request_opts[:trebuchet_experiments_on_page])
     end
 
-    # Erroneo - this is complex and deserves multiple lines and a comment
+    # bad - this is complex and deserves multiple lines and a comment
     parts[i] = part.to_i(INTEGER_BASE) if !part.nil? && [0, 2, 3].include?(i)
 
     # okay
@@ -712,14 +704,14 @@ In either case:
     these with the positive case first.<sup>[[link](#no-unless-with-else)]</sup>
 
     ```ruby
-    # Erroneo
+    # bad
     unless success?
       puts 'failure'
     else
       puts 'success'
     end
 
-    # Correcto
+    # good
     if success?
       puts 'success'
     else
@@ -731,7 +723,7 @@ In either case:
     conditions.<sup>[[link](#unless-with-multiple-conditions)]</sup>
 
     ```ruby
-      # Erroneo
+      # bad
       unless foo? && bar?
         ...
       end
@@ -745,22 +737,22 @@ In either case:
 * <a name="unless-with-comparison-operator"></a>Avoid `unless` with comparison operators if you can use `if` with an opposing comparison operator.<sup>[[link](#unless-with-comparison-operator)]</sup>
 
     ```ruby
-      # Erroneo
+      # bad
       unless x == 10
         ...
       end
 
-      # Correcto
+      # good
       if x != 10
         ...
       end
 
-      # Erroneo
+      # bad
       unless x < 10
         ...
       end
 
-      # Correcto
+      # good
       if x >= 10
         ...
       end
@@ -776,12 +768,12 @@ In either case:
     <sup>[[link](#parens-around-conditions)]</sup>
 
     ```ruby
-    # Erroneo
+    # bad
     if (x > 10)
       ...
     end
 
-    # Correcto
+    # good
     if x > 10
       ...
     end
@@ -796,10 +788,10 @@ In either case:
     conditionals.<sup>[[link](#avoid-complex-ternary)]</sup>
 
     ```ruby
-    # Erroneo
+    # bad
     result = if some_condition then something else something_else end
 
-    # Correcto
+    # good
     result = some_condition ? something : something_else
     ```
 
@@ -808,10 +800,10 @@ In either case:
     `if/else` constructs in these cases.<sup>[[link](#no-nested-ternaries)]</sup>
 
     ```ruby
-    # Erroneo
+    # bad
     some_condition ? (nested_condition ? nested_something : nested_something_else) : something_else
 
-    # Correcto
+    # good
     if some_condition
       nested_condition ? nested_something : nested_something_else
     else
@@ -828,11 +820,11 @@ In either case:
     <sup>[[link](#no-multiline-ternaries)]</sup>
 
     ```ruby
-    # Erroneo
+    # bad
     some_really_long_condition_that_might_make_you_want_to_split_lines ?
       something : something_else
 
-    # Correcto
+    # good
     if some_really_long_condition_that_might_make_you_want_to_split_lines
       something
     else
@@ -858,7 +850,7 @@ In either case:
   * The core or most important flows should be the least indented.
 
   ```ruby
-  # Erroneo
+  # bad
   def compute
     server = find_server
     if server
@@ -872,7 +864,7 @@ In either case:
     end
   end
 
-  # Correcto
+  # good
   def compute
     server = find_server
     return unless server
@@ -887,14 +879,14 @@ In either case:
   Prefer `next` in loops instead of conditional blocks.
 
   ```ruby
-  # Erroneo
+  # bad
   [0, 1, 2, 3].each do |item|
     if item > 1
       puts item
     end
   end
 
-  # Correcto
+  # good
   [0, 1, 2, 3].each do |item|
     next unless item > 1
     puts item
@@ -916,12 +908,12 @@ In either case:
     ```ruby
     arr = [1, 2, 3]
 
-    # Erroneo
+    # bad
     for elem in arr do
       puts elem
     end
 
-    # Correcto
+    # good
     arr.each { |elem| puts elem }
     ```
 
@@ -934,28 +926,28 @@ In either case:
     ```ruby
     names = ["Bozhidar", "Steve", "Sarah"]
 
-    # Correcto
+    # good
     names.each { |name| puts name }
 
-    # Erroneo
+    # bad
     names.each do |name| puts name end
 
-    # Correcto
+    # good
     names.each do |name|
       puts name
       puts 'yay!'
     end
 
-    # Erroneo
+    # bad
     names.each { |name|
       puts name
       puts 'yay!'
     }
 
-    # Correcto
+    # good
     names.select { |name| name.start_with?("S") }.map { |name| name.upcase }
 
-    # Erroneo
+    # bad
     names.select do |name|
       name.start_with?("S")
     end.map { |name| name.upcase }
@@ -969,7 +961,7 @@ In either case:
     whenever applicable.<sup>[[link](#self-assignment)]</sup>
 
     ```ruby
-    # Erroneo
+    # bad
     x = x + y
     x = x * y
     x = x**y
@@ -977,7 +969,7 @@ In either case:
     x = x || y
     x = x && y
 
-    # Correcto
+    # good
     x += y
     x *= y
     x **= y
@@ -992,11 +984,11 @@ In either case:
     space before the semicolon.<sup>[[link](#semicolons)]</sup>
 
     ```ruby
-    # Erroneo
+    # bad
     puts 'foobar'; # superfluous semicolon
     puts 'foo'; puts 'bar' # two expressions on the same line
 
-    # Correcto
+    # good
     puts 'foobar'
 
     puts 'foo'
@@ -1010,11 +1002,11 @@ In either case:
     Do not use :: for regular method invocation.<sup>[[link](#colon-use)]</sup>
 
     ```ruby
-    # Erroneo
+    # bad
     SomeClass::some_method
     some_object::some_method
 
-    # Correcto
+    # good
     SomeClass.some_method
     some_object.some_method
     SomeModule::SomeClass::SOME_CONST
@@ -1025,12 +1017,12 @@ In either case:
     <sup>[[link](#redundant-return)]</sup>
 
     ```ruby
-    # Erroneo
+    # bad
     def some_method(some_arr)
       return some_arr.size
     end
 
-    # Correcto
+    # good
     def some_method(some_arr)
       some_arr.size
     end
@@ -1040,17 +1032,17 @@ In either case:
     conditionals<sup>[[link](#assignment-in-conditionals)]</sup>
 
     ```ruby
-    # Erroneo - shows intended use of assignment
+    # bad - shows intended use of assignment
     if (v = array.grep(/foo/))
       ...
     end
 
-    # Erroneo
+    # bad
     if v = array.grep(/foo/)
       ...
     end
 
-    # Correcto
+    # good
     v = array.grep(/foo/)
     if v
       ...
@@ -1071,10 +1063,10 @@ In either case:
     `false`.)<sup>[[link](#no-double-pipes-for-bools)]</sup>
 
     ```ruby
-    # Erroneo - would set enabled to true even if it was false
+    # bad - would set enabled to true even if it was false
     enabled ||= true
 
-    # Correcto
+    # good
     enabled = true if enabled.nil?
     ```
 
@@ -1082,10 +1074,10 @@ In either case:
     <sup>[[link](#lambda-calls)]</sup>
 
     ```ruby
-    # Erroneo
+    # bad
     lambda.(x, y)
 
-    # Correcto
+    # good
     lambda.call(x, y)
     ```
 
@@ -1100,11 +1092,11 @@ In either case:
     <sup>[[link](#single-action-blocks)]</sup>
 
     ```ruby
-    # Erroneo
+    # bad
     bluths.map { |bluth| bluth.occupation }
     bluths.select { |bluth| bluth.blue_self? }
 
-    # Correcto
+    # good
     bluths.map(&:occupation)
     bluths.select(&:blue_self?)
     ```
@@ -1113,12 +1105,12 @@ In either case:
     calling a method on the current instance.<sup>[[link](#redundant-self)]</sup>
 
     ```ruby
-    # Erroneo
+    # bad
     def end_date
       self.start_date + self.nights
     end
 
-    # Correcto
+    # good
     def end_date
       start_date + nights
     end
@@ -1143,7 +1135,7 @@ In either case:
     older versions of Ruby below 2.2 to intern them.
 
     ```ruby
-    # Erroneo
+    # bad
     class Color
       RED = 'red'
       BLUE = 'blue'
@@ -1162,7 +1154,7 @@ In either case:
       }
     end
 
-    # Correcto
+    # good
     class Color
       RED = 'red'.freeze
       BLUE = 'blue'.freeze
@@ -1244,12 +1236,12 @@ In either case:
 
     ```ruby
     class TestClass
-      # Erroneo
+      # bad
       def TestClass.some_method
         ...
       end
 
-      # Correcto
+      # good
       def self.some_other_method
         ...
       end
@@ -1260,7 +1252,7 @@ In either case:
 
     ```ruby
     class TestClass
-      # Erroneo
+      # bad
       class << self
         def first_method
           ...
@@ -1271,7 +1263,7 @@ In either case:
         end
       end
 
-      # Correcto
+      # good
       class << self
         attr_accessor :per_page
         alias_method :nwo, :find_by_name_with_owner
@@ -1311,14 +1303,14 @@ In either case:
     <sup>[[link](#exception-flow-control)]</sup>
 
     ```ruby
-    # Erroneo
+    # bad
     begin
       n / d
     rescue ZeroDivisionError
       puts "Cannot divide by 0!"
     end
 
-    # Correcto
+    # good
     if d.zero?
       puts "Cannot divide by 0!"
     else
@@ -1330,14 +1322,14 @@ In either case:
     <sup>[[link](#dont-rescue-exception)]</sup>
 
     ```ruby
-    # Erroneo
+    # bad
     begin
       # an exception occurs here
     rescue Exception
       # exception handling
     end
 
-    # Correcto
+    # good
     begin
       # an exception occurs here
     rescue StandardError
@@ -1357,7 +1349,7 @@ In either case:
     explicit error creation.<sup>[[link](#redundant-exception)]</sup>
 
     ```ruby
-    # Erroneo
+    # bad
     raise RuntimeError, 'message'
 
     # better - RuntimeError is implicit here
@@ -1375,11 +1367,11 @@ In either case:
     <sup>[[link](#exception-class-messages)]</sup>
 
     ```Ruby
-    # Erroneo
+    # bad
     raise SomeException.new('message')
     # Note that there is no way to do `raise SomeException.new('message'), backtrace`.
 
-    # Correcto
+    # good
     raise SomeException, 'message'
     # Consistent with `raise SomeException, 'message', backtrace`.
     ```
@@ -1389,10 +1381,10 @@ In either case:
     <sup>[[link](#rescue-as-modifier)]</sup>
 
     ```ruby
-    # Erroneo
+    # bad
     read_file rescue handle_error($!)
 
-    # Correcto
+    # good
     begin
       read_file
     rescue Errno:ENOENT => ex
@@ -1421,15 +1413,15 @@ In either case:
     <sup>[[link](#empty-collection-literals)]</sup>
 
     ```ruby
-    # Erroneo
+    # bad
     arr = Array.new
     hash = Hash.new
 
-    # Correcto
+    # good
     arr = []
     hash = {}
 
-    # Correcto because constructor requires parameters
+    # good because constructor requires parameters
     x = Hash.new { |h, k| h[k] = {} }
     ```
 
@@ -1437,11 +1429,11 @@ In either case:
     <sup>[[link](#array-join)]</sup>
 
     ```ruby
-    # Erroneo
+    # bad
     %w(one two three) * ', '
     # => 'one, two, three'
 
-    # Correcto
+    # good
     %w(one two three).join(', ')
     # => 'one, two, three'
     ```
@@ -1450,10 +1442,10 @@ In either case:
     <sup>[[link](#symbol-keys)]</sup>
 
     ```ruby
-    # Erroneo
+    # bad
     hash = { 'one' => 1, 'two' => 2, 'three' => 3 }
 
-    # Correcto
+    # good
     hash = { :one => 1, :two => 2, :three => 3 }
     ```
 
@@ -1461,10 +1453,10 @@ In either case:
     symbols when possible.<sup>[[link](#symbol-literals)]</sup>
 
     ```ruby
-    # Erroneo
+    # bad
     :"symbol"
 
-    # Correcto
+    # good
     :symbol
     ```
 
@@ -1474,11 +1466,11 @@ In either case:
     <sup>[[link](#deprecated-hash-methods)]</sup>
 
     ```ruby
-    # Erroneo
+    # bad
     hash.has_key?(:test)
     hash.has_value?(value)
 
-    # Correcto
+    # good
     hash.key?(:test)
     hash.value?(value)
     ```
@@ -1503,10 +1495,10 @@ In either case:
     spans more than 1 line<sup>[[link](#array-trailing-comma)]</sup>
 
     ```ruby
-    # Correcto
+    # good
     array = [1, 2, 3]
 
-    # Correcto
+    # good
     array = [
       "car",
       "bear",
@@ -1521,10 +1513,10 @@ In either case:
     string concatenation:<sup>[[link](#string-interpolation)]</sup>
 
     ```ruby
-    # Erroneo
+    # bad
     email_with_name = user.name + ' <' + user.email + '>'
 
-    # Correcto
+    # good
     email_with_name = "#{user.name} <#{user.email}>"
     ```
 
@@ -1551,7 +1543,7 @@ In either case:
     creates a bunch of new string objects.<sup>[[link](#string-concatenation)]</sup>
 
     ```ruby
-    # Correcto and also fast
+    # good and also fast
     html = ''
     html << '<h1>Page title</h1>'
 
@@ -1565,14 +1557,14 @@ In either case:
     <sup>[[link](#multi-line-strings)]</sup>
 
     ```ruby
-    # Erroneo
+    # bad
     "Some string is really long and " +
       "spans multiple lines."
 
     "Some string is really long and " <<
       "spans multiple lines."
 
-    # Correcto
+    # good
     "Some string is really long and " \
       "spans multiple lines."
     ```
@@ -1584,12 +1576,12 @@ In either case:
     <sup>[[link](#regex-named-groups)]</sup>
 
     ```ruby
-    # Erroneo
+    # bad
     /(regexp)/ =~ string
     ...
     process $1
 
-    # Correcto
+    # good
     /(?<meaningful_var>regexp)/ =~ string
     ...
     process meaningful_var
@@ -1627,12 +1619,12 @@ In either case:
     calls than the alternatives.<sup>[[link](#percent-literal-delimiters)]</sup>
 
     ```ruby
-    # Erroneo
+    # bad
     %w[date locale]
     %w{date locale}
     %w|date locale|
 
-    # Correcto
+    # good
     %w(date locale)
     ```
 
@@ -1647,19 +1639,19 @@ In either case:
     prefer heredocs.<sup>[[link](#percent-parens)]</sup>
 
     ```ruby
-    # Erroneo - no interpolation needed
+    # bad - no interpolation needed
     %(<div class="text">Some text</div>)
     # should be '<div class="text">Some text</div>'
 
-    # Erroneo - no double-quotes
+    # bad - no double-quotes
     %(This is #{quality} style)
     # should be "This is #{quality} style"
 
-    # Erroneo - multiple lines
+    # bad - multiple lines
     %(<div>\n<span class="big">#{exclamation}</span>\n</div>)
     # should be a heredoc.
 
-    # Correcto - requires interpolation, has quotes, single line
+    # good - requires interpolation, has quotes, single line
     %(<tr><td class="name">#{name}</td>)
     ```
 
@@ -1667,14 +1659,14 @@ In either case:
     than* one '/' character.<sup>[[link](#percent-r)]</sup>
 
     ```ruby
-    # Erroneo
+    # bad
     %r(\s+)
 
     # still bad
     %r(^/(.*)$)
     # should be /^\/(.*)$/
 
-    # Correcto
+    # good
     %r(^/blog/2011/(.*)$)
     ```
 
@@ -1683,10 +1675,10 @@ In either case:
     <sup>[[link](#percent-x)]</sup>
 
     ```ruby
-    # Erroneo
+    # bad
     date = %x(date)
 
-    # Correcto
+    # good
     date = `date`
     echo = %x(echo `date`)
     ```
@@ -1698,17 +1690,17 @@ In either case:
     <sup>[[link](#next-line-return)]</sup>
 
     ```ruby
-    # Erroneo
+    # bad
     render :text => 'Howdy' and return
 
-    # Correcto
+    # good
     render :text => 'Howdy'
     return
 
     # still bad
     render :text => 'Howdy' and return if foo.present?
 
-    # Correcto
+    # good
     if foo.present?
       render :text => 'Howdy'
       return
@@ -1722,10 +1714,10 @@ In either case:
     <sup>[[link](#scope-lambda)]</sup>
 
     ```ruby
-    # Erroneo
+    # bad
     scope :foo, where(:bar => 1)
 
-    # Correcto
+    # good
     scope :foo, -> { where(:bar => 1) }
     ```
 
